@@ -4,7 +4,7 @@ import time
 
 
 # =============== Part One ===============
-def incr_triple(lst):  # Todo: Check that its O(n).
+def incr_triple(lst):  # TODO: Check that its O(n).
     temp = []
     for i, val in enumerate(lst):
         if len(temp) < 3:
@@ -22,7 +22,7 @@ def incr_triple(lst):  # Todo: Check that its O(n).
     return sort(temp)
 
 
-def dac_triple(lst):  # Todo: Check that its O(n).
+def dac_triple(lst):  # TODO: Check that its O(n).
     if len(lst) == 3:
         return sort(lst)
     else:
@@ -59,7 +59,7 @@ def sort(lst):  # Insertionsort, since data set contains 3 elements no fancier s
 if __name__ == '__main__':
     k = 3
     length = 3 * 2 ** (k - 1)  # Given in instructions, lenght of data set is always divisible by 3.
-    a = [randrange(10) for i in range(length)]  # <---- Todo: Make elements is data set distinct.
+    a = [randrange(10) for i in range(length)]  # <---- TODO: Make elements is data set distinct.
     # a = [2, 6, 9, 3, 4, 7]  # For testing
 
     # ---------- Testing ----------
