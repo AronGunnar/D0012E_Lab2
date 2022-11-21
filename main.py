@@ -3,7 +3,7 @@ import cProfile
 import time
 
 
-# =============== Part One ===============
+# =================== Part One ===================
 def incr_triple(lst):  # TODO: Check that its O(n).
     temp = []
     for i, val in enumerate(lst):
@@ -52,11 +52,12 @@ def sort(lst):  # Insertionsort, since data set contains 3 elements no fancier s
     return lst
 
 
-# =============== Part Two ===============
+# =================== Part Two ===================
 
 
 # =============== Testing/Printing ===============
 if __name__ == '__main__':
+    # ------- List creation -------
     k = 3
     length = 3 * 2 ** (k - 1)  # Given in instructions, lenght of data set is always divisible by 3.
     a = [randrange(10) for i in range(length)]  # <---- TODO: Make elements is data set distinct.
