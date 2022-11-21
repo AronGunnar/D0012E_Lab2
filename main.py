@@ -65,6 +65,16 @@ def max_sum(lst):
         mid = len(lst) // 2
         lst_l = max_sum(lst[:mid])
         lst_r = max_sum(lst[mid:])
+
+        sum_left = sum(lst_l)
+        sum_right = sum(lst_r)
+        sum_total = sum_left + sum_right
+
+        if sum_left > sum_total:
+            print("left")
+        if sum_right > sum_total:
+            print("right")
+
     else:
         return lst
 
@@ -79,7 +89,9 @@ if __name__ == '__main__':
     b = [1, -2, -4, 10, -7, 8, 7, 1, -1]
 
     # ---------- Testing ----------
-    # calls to test functions..
+    # Test code or calls to test functions..
+    # total = 0
+    # c = [total := total + i for i in b]  # If built in function sum can't be used.
 
     # ---------- Printing ----------
     # --- Part One ---
