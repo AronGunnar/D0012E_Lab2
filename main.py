@@ -4,7 +4,7 @@ import time
 
 
 # =================== Part One ===================
-def incr_triple(lst):  # TODO: Check that its O(n).
+def incr_triple(lst):  # TODO: Check that it's O(n).
     temp = []
     for i, val in enumerate(lst):
         if len(temp) < 3:
@@ -22,7 +22,7 @@ def incr_triple(lst):  # TODO: Check that its O(n).
     return sort(temp)
 
 
-def dac_triple(lst):  # TODO: Check that its O(n).
+def dac_triple(lst):  # TODO: Check that it's O(n).
     if len(lst) == 3:
         return sort(lst)
     else:
@@ -53,6 +53,20 @@ def sort(lst):  # Insertionsort, since data set contains 3 elements no fancier s
 
 
 # =================== Part Two ===================
+def max_sum(lst):
+    # if len(lst) > 1:
+    #     mid = len(lst) // 2
+    #     lst_l = max_sum(lst[:mid])
+    #     lst_r = max_sum(lst[mid:])
+    #     return lst_l if sum(lst_l) > sum(lst_r) else lst_r
+    # return lst
+
+    if len(lst) > 1:
+        mid = len(lst) // 2
+        lst_l = max_sum(lst[:mid])
+        lst_r = max_sum(lst[mid:])
+    else:
+        return lst
 
 
 # =============== Testing/Printing ===============
@@ -60,12 +74,19 @@ if __name__ == '__main__':
     # ------- List creation -------
     k = 3
     length = 3 * 2 ** (k - 1)  # Given in instructions, lenght of data set is always divisible by 3.
-    a = [randrange(10) for i in range(length)]  # <---- TODO: Make elements is data set distinct.
-    # a = [2, 6, 9, 3, 4, 7]  # For testing
+    a = [randrange(10) for i in range(length)]  # <---- TODO: Make elements in data set distinct.
+    # b = [randrange(10) + 1 for i in range(2**k)]
+    b = [1, -2, -4, 10, -7, 8, 7, 1, -1]
 
     # ---------- Testing ----------
+    # calls to test functions..
 
     # ---------- Printing ----------
-    print("\nData set: ", a)
+    # --- Part One ---
+    # print("\nData set: ", a)
     # print("Smallest elements in set: ", incr_triple(a))
-    print("Smallest elements in set: ", dac_triple(a))
+    # print("Smallest elements in set: ", dac_triple(a))
+
+    # --- Part Two ---
+    print("\nData set: ", b)
+    print("Sum of largest sub-array: ", max_sum(b))
