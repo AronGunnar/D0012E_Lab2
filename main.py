@@ -12,12 +12,10 @@ def incr_triple(lst):  # TODO: Check that it's O(n).
         else:
             temp = sort(temp)
 
-            j = len(temp) - 1
-            while j > 0:
-                if val < temp[j]:
-                    temp[j] = val
+            for j in range(len(temp), 0, -1):
+                if val < temp[j - 1]:
+                    temp[j - 1] = val
                     break
-                j -= 1
 
     return sort(temp)
 
@@ -25,19 +23,17 @@ def incr_triple(lst):  # TODO: Check that it's O(n).
 def dac_triple(lst):  # TODO: Check that it's O(n).
     if len(lst) == 3:
         return sort(lst)
-    else:
-        mid = len(lst) // 2
-        lst_l = dac_triple(lst[mid:])
-        lst_r = dac_triple(lst[:mid])
+
+    mid = len(lst) // 2
+    lst_l = dac_triple(lst[mid:])
+    lst_r = dac_triple(lst[:mid])
 
     lst_l = sort(lst_l)
     lst_r = sort(lst_r)
     for i, val_r in enumerate(lst_r):
         for j, val_l in enumerate(lst_l):
             if val_l < val_r:
-                lst_r[i] = val_l
-                lst_l[j] = val_r
-                val_r = val_l
+                lst_r[i], lst_l[j], val_r = val_l, val_r, val_l
 
     return sort(lst_r)
 
@@ -71,12 +67,11 @@ def max_sum(lst):
         sum_total = sum_left + sum_right
 
         if sum_left > sum_total:
-            print("left")
+            sum_total = sum_left
         if sum_right > sum_total:
-            print("right")
+            sum_total = sum_right
 
-    else:
-        return lst
+    return lst
 
 
 # =============== Testing/Printing ===============
