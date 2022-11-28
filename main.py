@@ -49,29 +49,42 @@ def sort(lst):  # Insertionsort, since data set contains 3 elements no fancier s
 
 
 # =================== Part Two ===================
-def max_sum(lst):
-    # if len(lst) > 1:
-    #     mid = len(lst) // 2
-    #     lst_l = max_sum(lst[:mid])
-    #     lst_r = max_sum(lst[mid:])
-    #     return lst_l if sum(lst_l) > sum(lst_r) else lst_r
-    # return lst
+def max_sum(lst, low , high):
+    if (low == high):
+        return lst[low]
+    mid = (low + high) // 2
+    maxLeft = max_sum(lst, low, mid)
+    maxRight = max_sum(lst, mid+1, high)
+    
+    leftSum = -2147483647
+    sum = 0
 
-    if len(lst) > 1:
-        mid = len(lst) // 2
-        lst_l = max_sum(lst[:mid])
-        lst_r = max_sum(lst[mid:])
+    for i in range(mid, low - 1, -1):
+        sum = sum + lst[i]
 
-        sum_left = sum(lst_l)
-        sum_right = sum(lst_r)
-        sum_total = sum_left + sum_right
+        if sum > leftSum:
+            leftSum = sum
 
-        if sum_left > sum_total:
-            sum_total = sum_left
-        if sum_right > sum_total:
-            sum_total = sum_right
+    sum = 0
+    rightSum = -2147483647
 
-    return lst
+    for i in range(mid + 1, high + 1):
+        sum = sum + lst[i]
+
+        if sum > rightSum:
+            rightSum = sum
+    
+    maxCross = leftSum + rightSum
+
+    if maxLeft >= maxRight and maxLeft >= maxCross:
+        return maxLeft
+    elif maxRight >= maxLeft and maxRight >= maxCross:
+        return maxRight
+    else:
+        return maxCross
+
+
+        
 
 
 # =============== Testing/Printing ===============
@@ -81,7 +94,9 @@ if __name__ == '__main__':
     length = 3 * 2 ** (k - 1)  # Given in instructions, lenght of data set is always divisible by 3.
     a = [randrange(10) for i in range(length)]  # <---- TODO: Make elements in data set distinct.
     # b = [randrange(10) + 1 for i in range(2**k)]
-    b = [1, -2, -4, 10, -7, 8, 7, 1, -1]
+    b = [4, 3, -10, 3, -1, 2, 2, -3, 5, 7, -4, -8, -10, 4, 7, -30]
+    low = 0
+    high = len(b) - 1
 
     # ---------- Testing ----------
     # Test code or calls to test functions..
@@ -96,4 +111,4 @@ if __name__ == '__main__':
 
     # --- Part Two ---
     print("\nData set: ", b)
-    print("Sum of largest sub-array: ", max_sum(b))
+    print("Sum of largest sub-array: ", max_sum(b, low, high))
