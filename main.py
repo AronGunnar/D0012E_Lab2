@@ -1,4 +1,5 @@
 from random import randrange
+import random
 import cProfile
 import time
 
@@ -6,42 +7,42 @@ import time
 # =================== Part One ===================
 def incr_triple(lst):  # TODO: Check that it's O(n).
     temp = []
-    for i, val in enumerate(lst):
-        if len(temp) < 3:
+    for i, val in enumerate(lst): # körs n gånger
+        if len(temp) < 3:         # körs n gåner
             temp.append(val)
         else:
-            temp = sort(temp)
+            temp = sort(temp)     #sorten
 
             for j in range(len(temp), 0, -1):
-                if val < temp[j - 1]:
+                if val < temp[j - 1]: # ger 3 comparisons
                     temp[j - 1] = val
                     break
 
-    return sort(temp)
+    return sort(temp) #antal i sort
 
 
 def dac_triple(lst):  # TODO: Check that it's O(n).
-    if len(lst) == 3:
+    if len(lst) == 3: # så många gånger det tar att splita listan så att listan är 3
         return sort(lst)
 
     mid = len(lst) // 2
     lst_l = dac_triple(lst[mid:])
     lst_r = dac_triple(lst[:mid])
 
-    lst_l = sort(lst_l)
-    lst_r = sort(lst_r)
-    for i, val_r in enumerate(lst_r):
-        for j, val_l in enumerate(lst_l):
-            if val_l < val_r:
+    lst_l = sort(lst_l) #antal i sort
+    lst_r = sort(lst_r) #antal i sort
+    for i, val_r in enumerate(lst_r): # körs 3 gånger
+        for j, val_l in enumerate(lst_l): #körs 3 gånger
+            if val_l < val_r: #körs 9 gånger (3*3)
                 lst_r[i], lst_l[j], val_r = val_l, val_r, val_l
 
-    return sort(lst_r)
+    return sort(lst_r) #antal i sort
 
 
 def sort(lst):  # Insertionsort, since data set contains 3 elements no fancier sort is needed. (O(n^2), n = 3 => O(27))
-    for j, val in enumerate(lst):
+    for j, val in enumerate(lst): #3 lista long allstå for loppen 3 gånger
         i = j - 1
-        while i >= 0 and lst[i] > val:
+        while i >= 0 and lst[i] > val: # kör worst case med reversed list
             lst[i + 1] = lst[i]
             i -= 1
         lst[i + 1] = val
@@ -90,9 +91,16 @@ def max_sum(lst, low , high):
 # =============== Testing/Printing ===============
 if __name__ == '__main__':
     # ------- List creation -------
-    k = 3
+    k = 2
     length = 3 * 2 ** (k - 1)  # Given in instructions, lenght of data set is always divisible by 3.
-    a = [randrange(10) for i in range(length)]  # <---- TODO: Make elements in data set distinct.
+    # a = [randrange(10) for i in range(length)]  # <---- TODO: Make elements in data set distinct.
+    # dis_lst = []
+    # for i in a:
+    #     if i not in dis_lst:
+    #         dis_lst.append(i)
+
+    a = random.sample(range(0, 10000000), length)
+
     # b = [randrange(10) + 1 for i in range(2**k)]
     b = [4, 3, -10, 3, -1, 2, 2, -3, 5, 7, -4, -8, -10, 4, 7, -30]
     low = 0
@@ -105,10 +113,16 @@ if __name__ == '__main__':
 
     # ---------- Printing ----------
     # --- Part One ---
-    # print("\nData set: ", a)
-    # print("Smallest elements in set: ", incr_triple(a))
-    # print("Smallest elements in set: ", dac_triple(a))
+    #print("\nData set: ", a)
+    print(length)
+    #print(len(dis_lst))
+    #print(dis_lst)
+    print("Smallest elements in set: ", incr_triple(a))
+    print("Smallest elements in set: ", dac_triple(a))
+
+    cProfile.run("incr_triple(a)")
+    cProfile.run("dac_triple(a)")
 
     # --- Part Two ---
-    print("\nData set: ", b)
-    print("Sum of largest sub-array: ", max_sum(b, low, high))
+    #print("\nData set: ", b)
+    #print("Sum of largest sub-array: ", max_sum(b, low, high))
