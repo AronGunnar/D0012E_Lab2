@@ -49,42 +49,36 @@ def sort(lst):  # Insertionsort, since data set contains 3 elements no fancier s
 
 
 # =================== Part Two ===================
+
+
+class Sum:
+    def __init__(self, val):
+        self.total = val
+        self.maxSum = val
+        self.maxSuffix = val
+        self.maxPrefix = val
+
 def max_sum(lst, low , high):
+
     if (low == high):
-        return lst[low]
+        return Sum(lst[low])
+    
     mid = (low + high) // 2
-    maxLeft = max_sum(lst, low, mid)
-    maxRight = max_sum(lst, mid+1, high)
+    Left = max_sum(lst, low, mid)
+    Right = max_sum(lst, mid+1, high)
     
-    leftSum = -2147483647
-    sum = 0
+    optimalSum = Sum(0)
 
-    for i in range(mid, low - 1, -1):
-        sum = sum + lst[i]
+    optimalSum.total = Right.total + Left.total
 
-        if sum > leftSum:
-            leftSum = sum
+    optimalSum.maxPrefix = max(Left.maxPrefix, Left.total + Right.maxPrefix, Left.total + Right.total)
 
-    sum = 0
-    rightSum = -2147483647
+    optimalSum.maxSuffix = max(Right.maxSuffix, Right.total + Left.maxSuffix, Right.total + Left.total)
 
-    for i in range(mid + 1, high + 1):
-        sum = sum + lst[i]
-
-        if sum > rightSum:
-            rightSum = sum
+    optimalSum.maxSum = max(optimalSum.maxPrefix, optimalSum.maxSuffix, optimalSum.total, Left.maxSum, Right.maxSum, Left.maxSuffix + Right.maxPrefix)
     
-    maxCross = leftSum + rightSum
-
-    if maxLeft >= maxRight and maxLeft >= maxCross:
-        return maxLeft
-    elif maxRight >= maxLeft and maxRight >= maxCross:
-        return maxRight
-    else:
-        return maxCross
-
-
-        
+    return optimalSum
+  
 
 
 # =============== Testing/Printing ===============
@@ -92,9 +86,9 @@ if __name__ == '__main__':
     # ------- List creation -------
     k = 3
     length = 3 * 2 ** (k - 1)  # Given in instructions, lenght of data set is always divisible by 3.
-    a = [randrange(10) for i in range(length)]  # <---- TODO: Make elements in data set distinct.
+    a = [randrange(-10,10) for i in range(length)]  # <---- TODO: Make elements in data set distinct.
     # b = [randrange(10) + 1 for i in range(2**k)]
-    b = [4, 3, -10, 3, -1, 2, 2, -3, 5, 7, -4, -8, -10, 4, 7, -30]
+    b = [(randrange(10) + 1)*(-1) if randrange(10) + 1 > 5 else randrange(10) + 1 for i in range(2**k)]
     low = 0
     high = len(b) - 1
 
@@ -110,5 +104,9 @@ if __name__ == '__main__':
     # print("Smallest elements in set: ", dac_triple(a))
 
     # --- Part Two ---
+
     print("\nData set: ", b)
-    print("Sum of largest sub-array: ", max_sum(b, low, high))
+    print(2**k)
+    print("Sum of largest sub-array: ", max_sum(b, low, high).maxSum)
+    cProfile.run("max_sum(b, low, high)")
+
