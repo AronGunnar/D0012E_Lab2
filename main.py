@@ -72,11 +72,46 @@ def max_sum(lst, low , high):
 
     optimalSum.total = Right.total + Left.total
 
-    optimalSum.maxPrefix = max(Left.maxPrefix, Left.total + Right.maxPrefix, Left.total + Right.total)
+    if Left.maxPrefix >= Left.total + Right.maxPrefix and Left.maxPrefix >= Left.total + Right.total:
+        optimalSum.maxPrefix =  Left.maxPrefix
+    
+    elif Left.total + Right.maxPrefix >= Left.maxPrefix and Left.total + Right.maxPrefix >= Left.total + Right.total:
+        optimalSum.maxPrefix = Left.total + Right.maxPrefix
+    
+    else:
+        optimalSum.maxPrefix = Left.total + Right.total
 
-    optimalSum.maxSuffix = max(Right.maxSuffix, Right.total + Left.maxSuffix, Right.total + Left.total)
 
-    optimalSum.maxSum = max(optimalSum.maxPrefix, optimalSum.maxSuffix, optimalSum.total, Left.maxSum, Right.maxSum, Left.maxSuffix + Right.maxPrefix)
+
+    if Right.maxSuffix >= Right.total + Left.maxSuffix and Right.maxSuffix >= Right.total + Left.total:
+        optimalSum.maxSuffix =  Right.maxSuffix
+    
+    elif Right.total + Left.maxSuffix >= Right.maxSuffix and Right.total + Left.maxSuffix >= Right.total + Left.total:
+        optimalSum.maxSuffix = Right.total + Left.maxSuffix
+    
+    else:
+        optimalSum.maxSuffix = Right.total + Left.total
+
+
+
+    if optimalSum.maxPrefix >= optimalSum.maxSuffix and optimalSum.maxPrefix >= optimalSum.total and optimalSum.maxPrefix >= Left.maxSum and optimalSum.maxPrefix >= Right.maxSum and optimalSum.maxPrefix >= Left.maxSuffix + Right.maxPrefix:
+        optimalSum.maxSum = optimalSum.maxPrefix
+    
+    elif optimalSum.maxSuffix >= optimalSum.maxPrefix and optimalSum.maxSuffix >= optimalSum.total and optimalSum.maxSuffix >= Left.maxSum and optimalSum.maxSuffix >= Right.maxSum and optimalSum.maxSuffix >= Left.maxSuffix + Right.maxPrefix:
+        optimalSum.maxSum = optimalSum.maxSuffix
+    
+    elif optimalSum.total >= optimalSum.maxPrefix and optimalSum.total >= optimalSum.maxSuffix and optimalSum.total >= Left.maxSum and optimalSum.total >= Right.maxSum and optimalSum.total >= Left.maxSuffix + Right.maxPrefix:
+        optimalSum.maxSum = optimalSum.total
+    
+    elif Left.maxSum >= optimalSum.maxPrefix and Left.maxSum >= optimalSum.maxSuffix and Left.maxSum >= optimalSum.total and Left.maxSum >= Right.maxSum and Left.maxSum >= Left.maxSuffix + Right.maxPrefix:
+        optimalSum.maxSum = Left.maxSum
+    
+    elif Right.maxSum >= optimalSum.maxPrefix and Right.maxSum >= optimalSum.maxSuffix and Right.maxSum >= Left.maxSum and Right.maxSum >= Left.maxSum and Right.maxSum >= Left.maxSuffix + Right.maxPrefix:
+        optimalSum.maxSum = Right.maxSum
+    
+    else:
+        optimalSum.maxSum = Left.maxSuffix + Right.maxPrefix
+
     
     return optimalSum
   
@@ -85,7 +120,7 @@ def max_sum(lst, low , high):
 # =============== Testing/Printing ===============
 if __name__ == '__main__':
     # ------- List creation -------
-    k = 2
+    k = 3
     length = 3 * 2 ** (k - 1)  # Given in instructions, lenght of data set is always divisible by 3.
     a = [randrange(-10,10) for i in range(length)]  # <---- TODO: Make elements in data set distinct.
     # b = [randrange(10) + 1 for i in range(2**k)]
@@ -101,14 +136,14 @@ if __name__ == '__main__':
     # ---------- Printing ----------
     # --- Part One ---
     #print("\nData set: ", a)
-    print(length)
+    #print(length)
     #print(len(dis_lst))
     #print(dis_lst)
-    print("Smallest elements in set: ", incr_triple(a))
-    print("Smallest elements in set: ", dac_triple(a))
+    #print("Smallest elements in set: ", incr_triple(a))
+    #print("Smallest elements in set: ", dac_triple(a))
 
-    cProfile.run("incr_triple(a)")
-    cProfile.run("dac_triple(a)")
+    #cProfile.run("incr_triple(a)")
+    #cProfile.run("dac_triple(a)")
 
     # --- Part Two ---
 
