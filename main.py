@@ -1,46 +1,45 @@
 from random import randrange
 import random
 import cProfile
-import time
 
 
 # =================== Part One ===================
 def incr_triple(lst):
     temp = []
-    for i, val in enumerate(lst):  # körs n gånger
-        if len(temp) < 3:  # körs n gåner
+    for i, val in enumerate(lst):
+        if len(temp) < 3:
             temp.append(val)
         else:
-            temp = sort(temp)  # sorten
+            temp = sort(temp)
 
             for j in range(len(temp), 0, -1):
-                if val < temp[j - 1]:  # ger 3 comparisons
+                if val < temp[j - 1]:
                     temp[j - 1] = val
                     break
 
-    return sort(temp)  # antal i sort
+    return sort(temp)
 
 
 def dac_triple(lst):
-    if len(lst) == 3:  # så många gånger det tar att splita listan så att listan är 3
+    if len(lst) == 3:
         return sort(lst)
 
     mid = len(lst) // 2
     lst_l = dac_triple(lst[mid:])
     lst_r = dac_triple(lst[:mid])
 
-    for i, val_r in enumerate(lst_r):  # körs 3 gånger
-        for j, val_l in enumerate(lst_l):  # körs 3 gånger
-            if val_l < val_r:  # körs 9 gånger (3*3)
+    for i, val_r in enumerate(lst_r):
+        for j, val_l in enumerate(lst_l):
+            if val_l < val_r:
                 lst_r[i], lst_l[j], val_r = val_l, val_r, val_l
 
     return sort(lst_r)  # antal i sort
 
 
 def sort(lst):  # Insertionsort, since data set contains 3 elements no fancier sort is needed. (O(n^2), n = 3 => O(27))
-    for j, val in enumerate(lst):  # 3 lista long allstå for loppen 3 gånger
+    for j, val in enumerate(lst):
         i = j - 1
-        while i >= 0 and lst[i] > val:  # kör worst case med reversed list
+        while i >= 0 and lst[i] > val:
             lst[i + 1] = lst[i]
             i -= 1
         lst[i + 1] = val
@@ -104,4 +103,4 @@ if __name__ == '__main__':
     print("\nData set: ", b)
     print("Sum of largest sub-array: ", max_sum(b, low, high).maxSum)
 
-    # cProfile.run("max_sum(b, low, high)")
+    cProfile.run("max_sum(b, low, high)")
